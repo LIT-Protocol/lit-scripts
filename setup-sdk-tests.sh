@@ -14,7 +14,8 @@ then
 else
     curl -fsSL https://bun.sh/install | bash
     source ~/.bashrc
-    ource ~/.bash_profile
+    source ~/.bash_profile
+    source /home/ubuntu/.bashrc 
 fi
 
 headerLog "🔍 Cloning the repository"

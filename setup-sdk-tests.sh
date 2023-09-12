@@ -46,6 +46,9 @@ bun install
 headerLog "🏗️ Building the project"
 bun run build
 
+headerLog "📂 Listing directories"
+ls
+
 headerLog "📂 Changing directory to lit-node-client/dist"
 cd packages/lit-node-client/dist
 

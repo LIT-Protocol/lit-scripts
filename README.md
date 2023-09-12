@@ -1,5 +1,5 @@
 # Scripts
 
 ```
-https://raw.githubusercontent.com/LIT-Protocol/scripts/main/setup-sdk-tests.sh
+curl -sSL https://raw.githubusercontent.com/LIT-Protocol/scripts/main/setup-sdk-tests.sh | bash
 ```

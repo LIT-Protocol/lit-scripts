@@ -13,6 +13,8 @@ then
     echo "bun is already installed"
 else
     curl -fsSL https://bun.sh/install | bash
+    source ~/.bashrc
+    ource ~/.bash_profile
 fi
 
 headerLog "🔍 Cloning the repository"

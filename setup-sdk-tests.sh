@@ -56,7 +56,7 @@ headerLog "🔧 Installing dependencies"
 bun install
 
 headerLog "🏗️ Building the project"
-bun run build
+bun run build & wait $!
 
 headerLog "📂 Listing directories"
 ls

@@ -13,9 +13,12 @@ then
     echo "bun is already installed"
 else
     curl -fsSL https://bun.sh/install | bash
-    source ~/.bashrc
-    source ~/.bash_profile
-    source /home/ubuntu/.bashrc 
+    # Check if bun command is available after installation
+    if ! command -v bun &> /dev/null
+    then
+        echo "bun command is not available. Please source it first."
+        exit 1
+    fi
 fi
 
 headerLog "🔍 Cloning the repository"

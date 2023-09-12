@@ -36,6 +36,16 @@ bun install
 headerLog "📦 Getting the latest contracts"
 bun run ./node_modules/@getlit/contracts/index.mjs
 
+headerLog "🔗 Linking the package in the root directory"
+bun link @lit-protocol/lit-node-client --save
+
+headerLog "📝 Generating scripts"
+bun gen-scripts.mjs
+
+headerLog "📝 Generating lit config"
+bun gen-lit-config.mjs
+
+# ----- Getting JS SDK -----
 headerLog "🔍 Cloning the repository"
 git clone --branch feat/SDK-V3 https://github.com/LIT-Protocol/js-sdk.git lit-js-sdk
 
@@ -60,14 +70,6 @@ bun link
 headerLog "🔙 Returning to the root directory"
 cd ../../../..
 
-headerLog "🔗 Linking the package in the root directory"
-bun link @lit-protocol/lit-node-client --save
-
-headerLog "📝 Generating scripts"
-bun gen-scripts.mjs
-
-headerLog "📝 Generating lit config"
-bun gen-lit-config.mjs
-
+# ----- Root -----
 headerLog "🖨️ Printing available test commands in package.json:"
 cat package.json | grep -o '"test.*"'

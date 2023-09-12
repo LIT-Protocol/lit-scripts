@@ -16,6 +16,16 @@ fi
 headerLog "🔍 Cloning the repository"
 git clone https://github.com/LIT-Protocol/test-sdk-for-nodes-ppl .
 
+headerLog "🔍 Cloning the sdk-tests repository"
+git clone https://github.com/LIT-Protocol/sdk-tests
+
+headerLog "📂 Moving all the content into the root"
+mv sdk-tests/* .
+
+headerLog "🗑️ Deleting the sdk-tests folder"
+rm -rf sdk-tests
+
+
 headerLog "🚀 Starting the installation process"
 bun install
 

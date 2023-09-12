@@ -1,1 +1,5 @@
-curl -sSL https://github.com/LIT-Protocol/scripts | bash
+# Scripts
+
+```
+https://raw.githubusercontent.com/LIT-Protocol/scripts/main/setup-sdk-tests.sh
+```

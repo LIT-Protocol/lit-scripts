@@ -31,19 +31,19 @@ headerLog "🗑️ Deleting the sdk-tests folder"
 rm -rf sdk-tests
 
 headerLog "🚀 Starting the installation process"
-bun install
+~/.bun/bin/bun install
 
 headerLog "📦 Getting the latest contracts"
-bun run ./node_modules/@getlit/contracts/index.mjs
+~/.bun/bin/bun run ./node_modules/@getlit/contracts/index.mjs
 
 headerLog "🔗 Linking the package in the root directory"
-bun link @lit-protocol/lit-node-client --save
+~/.bun/bin/bun link @lit-protocol/lit-node-client --save
 
 headerLog "📝 Generating scripts"
-bun gen-scripts.mjs
+~/.bun/bin/bun gen-scripts.mjs
 
 headerLog "📝 Generating lit config"
-bun gen-lit-config.mjs
+~/.bun/bin/bun gen-lit-config.mjs
 
 # ----- Getting JS SDK -----
 headerLog "🔍 Cloning the repository"
@@ -53,10 +53,10 @@ headerLog "📂 Changing directory to the cloned repository"
 cd lit-js-sdk
 
 headerLog "🔧 Installing dependencies"
-bun install
+~/.bun/bin/bun install
 
 headerLog "🏗️ Building the project"
-bun run build
+~/.bun/bin/bun run build
 
 headerLog "📂 Listing directories"
 ls
@@ -65,7 +65,7 @@ headerLog "📂 Changing directory to lit-node-client/dist"
 cd packages/lit-node-client/dist
 
 headerLog "🔗 Linking the package"
-bun link
+~/.bun/bin/bun link
 
 headerLog "🔙 Returning to the root directory"
 cd ../../../..

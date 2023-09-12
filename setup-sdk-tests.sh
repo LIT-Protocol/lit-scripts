@@ -34,6 +34,8 @@ bun install
 headerLog "📦 Getting the latest contracts"
 bun run ./node_modules/@getlit/contracts/index.mjs
 
+set +e
+
 headerLog "🔍 Cloning the repository"
 git clone --branch feat/SDK-V3 https://github.com/LIT-Protocol/js-sdk.git lit-js-sdk
 

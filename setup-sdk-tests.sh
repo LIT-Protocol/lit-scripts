@@ -55,10 +55,10 @@ headerLog "🗑️ Removing the .git directory"
 rm -rf $ROOT_DIR/lit-js-sdk/.git
 
 headerLog "🔧 Installing dependencies"
-bun install
+yarn
 
 headerLog "🏗️ Building the project"
-bun run build & wait $!
+yarn build & wait $!
 
 headerLog "📂 Listing directories"
 ls

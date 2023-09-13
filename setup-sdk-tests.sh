@@ -1,11 +1,36 @@
 #!/bin/bash
 
+# This script sets up the SDK tests for the LIT protocol.
+# It clones the necessary repositories, installs dependencies, and prepares the environment for testing.
+# 
+# Usage:
+# ./setup-sdk-tests.sh
+# 
+# To reset the whole current directory, you can use the following command:
+# find . -maxdepth 1 -mindepth 1 -exec rm -rf {} +
+# 
+# If this script is hosted somewhere, you can execute it using the following command:
+# curl --sSSL <url> | bash
+# Note: If you are using environment variables, they have to be placed before the curl command.
+# 
+# Environment variables:
+# ROOT_DIR: The root directory for the setup. Defaults to the current directory.
+# BRANCH: The branch to clone from the JS SDK repository. Defaults to 'feat/SDK-V3'.
+# TESTING_ENV_REPO: The repository for the testing environment. Defaults to 'https://github.com/LIT-Protocol/test-sdk-for-nodes-ppl'.
+# SDK_TESTS_REPO: The repository for the SDK tests. Defaults to 'https://github.com/LIT-Protocol/sdk-tests'.
+# JS_SDK_REPO: The repository for the JS SDK. Defaults to 'https://github.com/LIT-Protocol/js-sdk.git'.
+
 set +e
 
-ROOT_DIR=$(pwd)
+ROOT_DIR=${ROOT_DIR:-$(pwd)}
 BRANCH=${BRANCH:-feat/SDK-V3}
+TESTING_ENV_REPO=${TESTING_ENV_REPO:-https://github.com/LIT-Protocol/test-sdk-for-nodes-ppl}
+SDK_TESTS_REPO=${SDK_TESTS_REPO:-https://github.com/LIT-Protocol/sdk-tests}
+JS_SDK_REPO=${JS_SDK_REPO:-https://github.com/LIT-Protocol/js-sdk.git}
 
 echo "Branch" $BRANCH
+
+# Settings
 
 headerLog() {
   echo
@@ -27,13 +52,13 @@ else
 fi
 
 headerLog "🔍 Cloning the repository"
-git clone https://github.com/LIT-Protocol/test-sdk-for-nodes-ppl $ROOT_DIR
+git clone $TESTING_ENV_REPO $ROOT_DIR
 
 headerLog "🗑️ Removing the .git directory"
 rm -rf $ROOT_DIR/.git
 
 headerLog "🔍 Cloning the sdk-tests repository"
-git clone https://github.com/LIT-Protocol/sdk-tests $ROOT_DIR/sdk-tests
+git clone $SDK_TESTS_REPO $ROOT_DIR/sdk-tests
 
 headerLog "📂 Moving all the content into the root"
 mv $ROOT_DIR/sdk-tests/* $ROOT_DIR
@@ -49,7 +74,7 @@ bun run $ROOT_DIR/node_modules/@getlit/contracts/index.mjs
 
 # ----- Getting JS SDK -----
 headerLog "🔍 Cloning the repository"
-git clone --branch $BRANCH https://github.com/LIT-Protocol/js-sdk.git $ROOT_DIR/lit-js-sdk
+git clone --branch $BRANCH $JS_SDK_REPO $ROOT_DIR/lit-js-sdk
 
 headerLog "📂 Changing directory to the cloned repository"
 cd $ROOT_DIR/lit-js-sdk
@@ -93,5 +118,4 @@ headerLog "🔧 Initializing git"
 git init
 
 headerLog "🔗 Adding origin"
-git remote add origin https://github.com/LIT-Protocol/test-sdk-for-nodes-ppl
-
+git remote add origin $TESTING_ENV_REPO

@@ -2,7 +2,7 @@
 
 ## Setup SDK tests
 ```
-BRANCH="your-branch-name" curl -sSL https://raw.githubusercontent.com/LIT-Protocol/scripts/master/setup-sdk-tests.sh | bash
+BRANCH="feat/SDK-V3" curl -sSL https://raw.githubusercontent.com/LIT-Protocol/scripts/master/setup-sdk-tests.sh | bash
 ```
 
 # Remove everything in the current directory

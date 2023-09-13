@@ -55,7 +55,7 @@ headerLog "📂 Changing directory to the cloned repository"
 cd $ROOT_DIR/lit-js-sdk
 
 headerLog "🗑️ Removing the .git directory"
-rm -rf $ROOT_DIR/lit-js-sdk/.git
+# rm -rf $ROOT_DIR/lit-js-sdk/.git
 
 headerLog "🔧 Installing dependencies"
 yarn

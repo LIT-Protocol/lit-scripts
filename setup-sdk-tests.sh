@@ -46,7 +46,8 @@ bun run $ROOT_DIR/node_modules/@getlit/contracts/index.mjs
 
 # ----- Getting JS SDK -----
 headerLog "🔍 Cloning the repository"
-git clone --branch feat/SDK-V3 https://github.com/LIT-Protocol/js-sdk.git $ROOT_DIR/lit-js-sdk
+BRANCH=${1:-feat/SDK-V3}
+git clone --branch $BRANCH https://github.com/LIT-Protocol/js-sdk.git $ROOT_DIR/lit-js-sdk
 
 headerLog "📂 Changing directory to the cloned repository"
 cd $ROOT_DIR/lit-js-sdk
@@ -85,3 +86,10 @@ bun "$ROOT_DIR/gen-lit-config.mjs"
 
 headerLog "🖨️ Printing available test commands in package.json:"
 cat $ROOT_DIR/package.json | grep -o '"test.*"'
+
+headerLog "🔧 Initializing git"
+git init
+
+headerLog "🔗 Adding origin"
+git remote add origin https://github.com/LIT-Protocol/test-sdk-for-nodes-ppl
+

@@ -3,6 +3,9 @@
 set +e
 
 ROOT_DIR=$(pwd)
+BRANCH=${1:-feat/SDK-V3}
+
+echo "Branch" $BRANCH
 
 headerLog() {
   echo
@@ -46,11 +49,12 @@ bun run $ROOT_DIR/node_modules/@getlit/contracts/index.mjs
 
 # ----- Getting JS SDK -----
 headerLog "🔍 Cloning the repository"
-BRANCH=${1:-feat/SDK-V3}
 git clone --branch $BRANCH https://github.com/LIT-Protocol/js-sdk.git $ROOT_DIR/lit-js-sdk
 
 headerLog "📂 Changing directory to the cloned repository"
 cd $ROOT_DIR/lit-js-sdk
+
+exit()
 
 headerLog "🗑️ Removing the .git directory"
 rm -rf $ROOT_DIR/lit-js-sdk/.git

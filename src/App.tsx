@@ -221,7 +221,7 @@ const StakingInfo: React.FC = () => {
       {results && (
         <Card className="mt-4">
           <CardHeader>
-            <CardTitle>Results</CardTitle>
+            <CardTitle>Performance Results</CardTitle>
           </CardHeader>
           <CardContent>{renderResults(results)}</CardContent>
         </Card>

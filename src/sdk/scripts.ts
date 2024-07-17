@@ -21,8 +21,9 @@ async function profilePerformance<T>(
     const duration = Number((end - start).toFixed(2));
     performanceResults.push({ operationName, duration });
     console.log(
-      `\x1b[90m⌛️ Performance: ${operationName} took ${duration}ms\x1b[0m`
+      `\x1b[90m[Performance] ${operationName} took ${duration}ms\x1b[0m`
     );
+    console.log(result);
     return result;
   } catch (error) {
     const end = performance.now();
@@ -49,6 +50,7 @@ export const scripts: Record<string, ScriptDefinition> = {
         "Fetch worker API",
         performanceResults
       );
+
       const data = await profilePerformance(
         () => response.json(),
         "Parse JSON",
@@ -72,32 +74,29 @@ export const scripts: Record<string, ScriptDefinition> = {
         ethersProvider
       );
 
-      const minNodeCount = await profilePerformance(
+      await profilePerformance(
         () => stakingContract["currentValidatorCountForConsensus"](),
         "currentValidatorCountForConsensus",
         performanceResults
       );
-      console.log("minNodeCount:", minNodeCount);
 
-      const validatorsInCurrentEpoch = await profilePerformance(
+      await profilePerformance(
         () => stakingContract["getValidatorsInCurrentEpoch"](),
         "getValidatorsInCurrentEpoch",
         performanceResults
       );
-      console.log("validatorsInCurrentEpoch:", validatorsInCurrentEpoch);
 
-      const currentValidatorCountForConsensus = await profilePerformance(
+      await profilePerformance(
         () => stakingContract["currentValidatorCountForConsensus"](),
         "currentValidatorCountForConsensus",
         performanceResults
       );
-      console.log(
-        "currentValidatorCountForConsensus:",
-        currentValidatorCountForConsensus
-      );
 
-      const kickedValidators = await stakingContract["getKickedValidators"]();
-      console.log("kickedValidators:", kickedValidators);
+      await profilePerformance(
+        () => stakingContract["getKickedValidators"](),
+        "getKickedValidators",
+        performanceResults
+      );
 
       return {
         performanceResults,
@@ -155,23 +154,17 @@ export const scripts: Record<string, ScriptDefinition> = {
         performanceResults
       );
 
-      console.log("authMethod:", authMethod);
-
-      const mintRequestId = await profilePerformance(
+      await profilePerformance(
         () => ethWalletProvider.mintPKPThroughRelayer(authMethod),
         "mintPKPThroughRelayer",
         performanceResults
       );
 
-      console.log("mintRequestId:", mintRequestId);
-
-      const pkps = await profilePerformance(
+      await profilePerformance(
         () => ethWalletProvider.fetchPKPsThroughRelayer(authMethod),
         "fetchPKPsThroughRelayer",
         performanceResults
       );
-
-      console.log("pkps:", pkps);
 
       return {
         performanceResults,

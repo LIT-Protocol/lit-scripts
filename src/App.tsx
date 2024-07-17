@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ScriptResults, scripts } from "./sdk";
+import { PerformanceResult, ScriptResults, scripts } from "./sdk";
 
 const NETWORKS = Object.keys(RPC_URL_BY_NETWORK).filter(
   (network) => network !== "custom" && network !== "localhost"
@@ -110,43 +110,27 @@ const ScriptSelector: React.FC<ScriptSelectorProps> = ({
   );
 };
 
+const renderPerformanceTable = (performanceResults: PerformanceResult[]) => (
+  <table className="min-w-full bg-white border border-gray-300 mt-4">
+    <thead>
+      <tr>
+        <th className="px-4 py-2 bg-gray-100 border-b">Operation</th>
+        <th className="px-4 py-2 bg-gray-100 border-b">Duration (ms)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {performanceResults.map((result, index) => (
+        <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
+          <td className="px-4 py-2 border-b">{result.operationName}</td>
+          <td className="px-4 py-2 border-b text-right">{result.duration}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+);
+
 const renderResults = (results: ScriptResults) => {
-  if ("stakingAddress" in results) {
-    return (
-      <>
-        <p>
-          <strong>🚩 Staking Address:</strong> {results.stakingAddress}
-        </p>
-        <p>
-          <strong>🚩 Min Node Count:</strong> {results.minNodeCount}
-        </p>
-        <p>
-          <strong>🚩 Validators in Current Epoch:</strong>{" "}
-          {results.validatorsInCurrentEpoch.join(", ")}
-        </p>
-        <p>
-          <strong>🚩 Current Validator Count for Consensus:</strong>{" "}
-          {results.currentValidatorCountForConsensus}
-        </p>
-        <p>
-          <strong>🚩 Kicked Validators:</strong>{" "}
-          {results.kickedValidators.join(", ")}
-        </p>
-      </>
-    );
-  } else if ("demoValue1" in results) {
-    return (
-      <>
-        <p>
-          <strong>🚩 Demo Value 1:</strong> {results.demoValue1}
-        </p>
-        <p>
-          <strong>🚩 Demo Value 2:</strong> {results.demoValue2}
-        </p>
-      </>
-    );
-  }
-  return null;
+  return <div>{renderPerformanceTable(results.performanceResults)}</div>;
 };
 
 const StakingInfo: React.FC = () => {
@@ -173,7 +157,6 @@ const StakingInfo: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [executionTime, setExecutionTime] = useState<number | null>(null);
-  const [copySuccess, setCopySuccess] = useState<boolean>(false);
   const [currentUrl, setCurrentUrl] = useState<string>(window.location.href);
 
   useEffect(() => {
@@ -210,18 +193,6 @@ const StakingInfo: React.FC = () => {
     }
   };
 
-  const copyUrlToClipboard = () => {
-    const currentUrl = window.location.href;
-    navigator.clipboard.writeText(currentUrl).then(
-      () => {
-        setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 2000); // Reset success message after 2 seconds
-      },
-      (err) => {
-        console.error("Failed to copy URL: ", err);
-      }
-    );
-  };
   return (
     <div className="p-4 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Lit Scripts Runner</h1>

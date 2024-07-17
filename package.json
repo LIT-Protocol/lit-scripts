@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lit-protocol/constants": "^6.2.0",
+    "@lit-protocol/constants": "^6.3.0-alpha.1",
+    "@lit-protocol/lit-auth-client": "^6.3.0-alpha.1",
+    "@lit-protocol/lit-node-client": "^6.3.0-alpha.1",
     "@monaco-editor/react": "^4.6.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-select": "^2.1.1",
@@ -18,6 +20,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
+    "@simplewebauthn/browser": "^10.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "ethers": "5.7.2",

@@ -1,19 +1,14 @@
 import { ethers } from "ethers";
+import { AuthMethod } from "@lit-protocol/types";
 
-export interface StakingInfoResults {
-  stakingAddress: string;
-  minNodeCount: string;
-  validatorsInCurrentEpoch: string[];
-  currentValidatorCountForConsensus: string;
-  kickedValidators: string[];
+export interface PerformanceResult {
+  operationName: string;
+  duration: number;
 }
 
-export interface DemoScriptResults {
-  demoValue1: string;
-  demoValue2: number;
-}
-
-export type ScriptResults = StakingInfoResults | DemoScriptResults;
+export type ScriptResults = {
+  performanceResults: PerformanceResult[];
+};
 
 export interface ScriptDefinition {
   name: string;

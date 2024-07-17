@@ -107,6 +107,7 @@ export const scripts: Record<string, ScriptDefinition> = {
   relayerMinting: {
     name: "Relayer Minting",
     run: async (
+      // @ts-expect-error
       ethersProvider: ethers.providers.JsonRpcProvider,
       network: string
     ): Promise<ScriptResults> => {

@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import { AuthMethod } from "@lit-protocol/types";
 
 export interface PerformanceResult {
   operationName: string;

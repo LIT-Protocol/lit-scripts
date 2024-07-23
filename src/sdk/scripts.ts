@@ -5,16 +5,16 @@ import {
   NETWORK_CONTEXT_BY_NETWORK,
 } from "@lit-protocol/constants";
 import { ScriptDefinition, PerformanceResult, ScriptResults } from "./types";
-import { ProviderType, RPC_URL_BY_NETWORK } from "@lit-protocol/constants";
+// import { ProviderType, RPC_URL_BY_NETWORK } from "@lit-protocol/constants";
 import { LitNodeClient } from "@lit-protocol/lit-node-client";
 import { LIT_NETWORKS_KEYS } from "@lit-protocol/types";
-import {
-  EthWalletProvider,
-  LitAuthClient,
-} from "@lit-protocol/lit-auth-client";
-import { getCachedValue } from "./utils";
+// import {
+//   EthWalletProvider,
+//   LitAuthClient,
+// } from "@lit-protocol/lit-auth-client";
+// import { getCachedValue } from "./utils";
 
-const CACHE_KEY = "privateKeyCacheABC"; // Use a unique key to avoid conflicts
+// const CACHE_KEY = "privateKeyCacheABC"; // Use a unique key to avoid conflicts
 
 async function profilePerformance<T>(
   operation: () => Promise<T>,
@@ -123,85 +123,85 @@ export const scripts: Record<string, ScriptDefinition> = {
       };
     },
   },
-  relayerMinting: {
-    name: "Relayer Minting",
-    run: async (
-      // @ts-expect-error
-      ethersProvider: ethers.providers.JsonRpcProvider,
-      network: string
-    ): Promise<ScriptResults> => {
-      const PRIVATE_KEY = getCachedValue(
-        CACHE_KEY,
-        "Please enter your private key for relayer minting:"
-      );
+  // relayerMinting: {
+  //   name: "Relayer Minting",
+  //   run: async (
+  //     // @ts-expect-error
+  //     ethersProvider: ethers.providers.JsonRpcProvider,
+  //     network: string
+  //   ): Promise<ScriptResults> => {
+  //     const PRIVATE_KEY = getCachedValue(
+  //       CACHE_KEY,
+  //       "Please enter your private key for relayer minting:"
+  //     );
 
-      if (!PRIVATE_KEY) {
-        throw new Error("Private key is required");
-      }
+  //     if (!PRIVATE_KEY) {
+  //       throw new Error("Private key is required");
+  //     }
 
-      const performanceResults: PerformanceResult[] = [];
+  //     const performanceResults: PerformanceResult[] = [];
 
-      const TESTING_NETWORK = network as LIT_NETWORKS_KEYS;
+  //     const TESTING_NETWORK = network as LIT_NETWORKS_KEYS;
 
-      // -- config
-      const rpc = RPC_URL_BY_NETWORK[TESTING_NETWORK];
-      const provider = new ethers.providers.StaticJsonRpcProvider(rpc);
-      const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+  //     // -- config
+  //     const rpc = RPC_URL_BY_NETWORK[TESTING_NETWORK];
+  //     const provider = new ethers.providers.StaticJsonRpcProvider(rpc);
+  //     const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
 
-      // -- go
-      const litNodeClient = new LitNodeClient({
-        litNetwork: TESTING_NETWORK,
-      });
+  //     // -- go
+  //     const litNodeClient = new LitNodeClient({
+  //       litNetwork: TESTING_NETWORK,
+  //     });
 
-      await profilePerformance(
-        () => litNodeClient.connect(),
-        "LitNodeClient connect",
-        performanceResults
-      );
+  //     await profilePerformance(
+  //       () => litNodeClient.connect(),
+  //       "LitNodeClient connect",
+  //       performanceResults
+  //     );
 
-      const litAuthClient = new LitAuthClient({
-        litRelayConfig: {
-          relayApiKey: "test-api-key",
-        },
-        litNodeClient: litNodeClient,
-      });
+  //     const litAuthClient = new LitAuthClient({
+  //       litRelayConfig: {
+  //         relayApiKey: "test-api-key",
+  //       },
+  //       litNodeClient: litNodeClient,
+  //     });
 
-      // -- test fetch pkps
-      const ethWalletProvider = litAuthClient.initProvider<EthWalletProvider>(
-        ProviderType.EthWallet
-      );
+  //     // -- test fetch pkps
+  //     const ethWalletProvider = litAuthClient.initProvider<EthWalletProvider>(
+  //       ProviderType.EthWallet
+  //     );
 
-      const authMethod = await profilePerformance(
-        () =>
-          EthWalletProvider.authenticate({
-            signer: wallet,
-            litNodeClient,
-          }),
-        "EthWalletProvider authenticate",
-        performanceResults
-      );
+  //     const authMethod = await profilePerformance(
+  //       () =>
+  //         EthWalletProvider.authenticate({
+  //           signer: wallet,
+  //           litNodeClient,
+  //         }),
+  //       "EthWalletProvider authenticate",
+  //       performanceResults
+  //     );
 
-      await profilePerformance(
-        () => ethWalletProvider.mintPKPThroughRelayer(authMethod),
-        "mintPKPThroughRelayer",
-        performanceResults
-      );
+  //     await profilePerformance(
+  //       () => ethWalletProvider.mintPKPThroughRelayer(authMethod),
+  //       "mintPKPThroughRelayer",
+  //       performanceResults
+  //     );
 
-      await profilePerformance(
-        () => ethWalletProvider.fetchPKPsThroughRelayer(authMethod),
-        "fetchPKPsThroughRelayer",
-        performanceResults
-      );
+  //     await profilePerformance(
+  //       () => ethWalletProvider.fetchPKPsThroughRelayer(authMethod),
+  //       "fetchPKPsThroughRelayer",
+  //       performanceResults
+  //     );
 
-      await profilePerformance(
-        () => litNodeClient.disconnect(),
-        "LitNodeClient disconnect",
-        performanceResults
-      );
+  //     await profilePerformance(
+  //       () => litNodeClient.disconnect(),
+  //       "LitNodeClient disconnect",
+  //       performanceResults
+  //     );
 
-      return {
-        performanceResults,
-      };
-    },
-  },
+  //     return {
+  //       performanceResults,
+  //     };
+  //   },
+  // },
 };

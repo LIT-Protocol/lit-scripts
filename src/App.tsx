@@ -135,7 +135,7 @@ const renderResults = (results: ScriptResults) => {
 
 const StakingInfo: React.FC = () => {
   const defaultNetwork = LIT_NETWORK.DatilDev;
-  const defaultScript = Object.keys(scripts)[0];
+  const defaultScript = Object.keys(scripts)[1];
 
   const [network, setNetwork] = useState<string>(() => {
     const searchParams = new URLSearchParams(window.location.search);

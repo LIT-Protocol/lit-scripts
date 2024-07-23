@@ -1,5 +1,9 @@
 import { ethers } from "ethers";
-import { GENERAL_WORKER_URL_BY_NETWORK } from "@lit-protocol/constants";
+import {
+  // LIT_NETWORK_TYPES,
+  // LIT_NETWORK_VALUES,
+  NETWORK_CONTEXT_BY_NETWORK,
+} from "@lit-protocol/constants";
 import { ScriptDefinition, PerformanceResult, ScriptResults } from "./types";
 import { ProviderType, RPC_URL_BY_NETWORK } from "@lit-protocol/constants";
 import { LitNodeClient } from "@lit-protocol/lit-node-client";
@@ -8,6 +12,9 @@ import {
   EthWalletProvider,
   LitAuthClient,
 } from "@lit-protocol/lit-auth-client";
+import { getCachedValue } from "./utils";
+
+const CACHE_KEY = "privateKeyCacheABC"; // Use a unique key to avoid conflicts
 
 async function profilePerformance<T>(
   operation: () => Promise<T>,
@@ -43,19 +50,7 @@ export const scripts: Record<string, ScriptDefinition> = {
     ): Promise<ScriptResults> => {
       const performanceResults: PerformanceResult[] = [];
 
-      const workerApi = GENERAL_WORKER_URL_BY_NETWORK[network];
-
-      const response = await profilePerformance(
-        () => fetch(workerApi),
-        "Fetch worker API",
-        performanceResults
-      );
-
-      const data = await profilePerformance(
-        () => response.json(),
-        "Parse JSON",
-        performanceResults
-      );
+      const data = NETWORK_CONTEXT_BY_NETWORK[network];
 
       const stakingData = data.data.filter(
         (contract: { name: string }) => contract.name === "Staking"
@@ -103,6 +98,31 @@ export const scripts: Record<string, ScriptDefinition> = {
       };
     },
   },
+  litNodeClient: {
+    name: "Lit Node Client",
+    run: async (
+      // @ts-ignore
+      ethersProvider: ethers.providers.JsonRpcProvider,
+      network: string
+    ): Promise<ScriptResults> => {
+      const performanceResults: PerformanceResult[] = [];
+
+      const litNodeClient = new LitNodeClient({
+        litNetwork: network as LIT_NETWORKS_KEYS,
+        debug: true,
+      });
+
+      await profilePerformance(
+        () => litNodeClient.connect(),
+        "LitNodeClient connect",
+        performanceResults
+      );
+
+      return {
+        performanceResults,
+      };
+    },
+  },
   relayerMinting: {
     name: "Relayer Minting",
     run: async (
@@ -110,11 +130,18 @@ export const scripts: Record<string, ScriptDefinition> = {
       ethersProvider: ethers.providers.JsonRpcProvider,
       network: string
     ): Promise<ScriptResults> => {
+      const PRIVATE_KEY = getCachedValue(
+        CACHE_KEY,
+        "Please enter your private key for relayer minting:"
+      );
+
+      if (!PRIVATE_KEY) {
+        throw new Error("Private key is required");
+      }
+
       const performanceResults: PerformanceResult[] = [];
 
       const TESTING_NETWORK = network as LIT_NETWORKS_KEYS;
-      const PRIVATE_KEY =
-        "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
 
       // -- config
       const rpc = RPC_URL_BY_NETWORK[TESTING_NETWORK];
@@ -166,17 +193,11 @@ export const scripts: Record<string, ScriptDefinition> = {
         performanceResults
       );
 
-      return {
-        performanceResults,
-      };
-    },
-  },
-  demoScript: {
-    name: "Demo Script",
-    run: async (): Promise<ScriptResults> => {
-      const performanceResults: PerformanceResult[] = [];
-
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await profilePerformance(
+        () => litNodeClient.disconnect(),
+        "LitNodeClient disconnect",
+        performanceResults
+      );
 
       return {
         performanceResults,

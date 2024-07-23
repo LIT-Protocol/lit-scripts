@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PerformanceResult, ScriptResults, scripts } from "./sdk";
+import { LIT_PACKAGES } from "./autogen/lit-protocol-versions";
 
 const NETWORKS = Object.keys(RPC_URL_BY_NETWORK).filter(
   (network) => network !== "custom" && network !== "localhost"
@@ -231,6 +232,21 @@ const StakingInfo: React.FC = () => {
           <strong>Execution Time:</strong> {executionTime.toFixed(2)} ms
         </p>
       )}
+
+      <div className="absolute top-2 right-2 text-xs text-gray-400 bg-gray-100 p-2 rounded-md max-w-xs">
+        <details open>
+          <summary className="cursor-pointer font-semibold mb-1">
+            Lit Protocol Versions
+          </summary>
+          <ul className="mt-1 space-y-1">
+            {Object.entries(LIT_PACKAGES).map(([packageName, version]) => (
+              <li key={packageName} className="truncate">
+                <span className="font-medium">{packageName}:</span> {version}
+              </li>
+            ))}
+          </ul>
+        </details>
+      </div>
     </div>
   );
 };

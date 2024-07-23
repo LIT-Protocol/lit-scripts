@@ -4,16 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": " bun gen-versions.ts && vite",
+    "build": "bun gen-versions.ts && tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lit-protocol/constants": "^6.2.3-alpha.0",
+    "@lit-protocol/constants": "^6.2.3-alpha.1",
     "@lit-protocol/contracts": "^0.0.37",
-    "@lit-protocol/lit-auth-client": "^6.2.3-alpha.0",
-    "@lit-protocol/lit-node-client": "^6.2.3-alpha.0",
+    "@lit-protocol/lit-auth-client": "^6.2.3-alpha.1",
+    "@lit-protocol/lit-node-client": "^6.2.3-alpha.1",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slider": "^1.2.0",

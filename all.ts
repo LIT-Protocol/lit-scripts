@@ -1,19 +1,7 @@
-import { ethers } from "ethers";
-import {
-  // LIT_NETWORK_TYPES,
-  // LIT_NETWORK_VALUES,
-  NETWORK_CONTEXT_BY_NETWORK,
-} from "@lit-protocol/constants";
-import { ScriptDefinition, PerformanceResult, ScriptResults } from "./types";
-import { ProviderType, RPC_URL_BY_NETWORK } from "@lit-protocol/constants";
-import { LitNodeClient } from "@lit-protocol/lit-node-client";
-import { LIT_NETWORKS_KEYS } from "@lit-protocol/types";
-import {
-  EthWalletProvider,
-  LitAuthClient,
-} from "@lit-protocol/lit-auth-client";
-import { getCachedValue } from "./utils";
+// Filename: src/vite-env.d.ts
+/// <reference types="vite/client" />
 
+// Filename: src/sdk/scripts.ts
 const CACHE_KEY = "privateKeyCacheABC"; // Use a unique key to avoid conflicts
 
 async function profilePerformance<T>(
@@ -205,3 +193,59 @@ export const scripts: Record<string, ScriptDefinition> = {
     },
   },
 };
+
+// Filename: src/sdk/utils.ts
+/**
+ * Gets a value from the cache or prompts the user if not found.
+ * @param {string} cacheKey - The key to use for storing/retrieving the value
+ * @param {string} promptMessage - The message to show when prompting for the value
+ * @returns {string | null} The cached value, or null if not provided
+ */
+export function getCachedValue(
+  cacheKey: string,
+  promptMessage: string
+): string | null {
+  let value = localStorage.getItem(cacheKey);
+  if (!value) {
+    value = prompt(promptMessage);
+    if (value) {
+      localStorage.setItem(cacheKey, value);
+    }
+  }
+  return value;
+}
+
+// Filename: src/sdk/types.ts
+export interface PerformanceResult {
+  operationName: string;
+  duration: number;
+}
+
+export type ScriptResults = {
+  performanceResults: PerformanceResult[];
+};
+
+export interface ScriptDefinition {
+  name: string;
+  run: (
+    ethersProvider: ethers.providers.JsonRpcProvider,
+    network: string
+  ) => Promise<ScriptResults>;
+}
+
+// Filename: src/sdk/index.ts
+
+
+// Filename: src/lib/utils.ts
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+// Filename: src/autogen/lit-protocol-versions.ts
+export const LIT_PACKAGES = {
+  "@lit-protocol/constants": "^6.3.0",
+  "@lit-protocol/contracts": "^0.0.37",
+  "@lit-protocol/lit-auth-client": "^6.4.0",
+  "@lit-protocol/lit-node-client": "^6.4.0"
+} as const;
+

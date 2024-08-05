@@ -10,8 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codesandbox/nodebox": "^0.1.9",
     "@lit-protocol/constants": "^6.3.0",
-    "@lit-protocol/contracts": "^0.0.37",
+    "@lit-protocol/contracts": "^0.0.41",
     "@lit-protocol/lit-auth-client": "^6.4.0",
     "@lit-protocol/lit-node-client": "^6.4.0",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -24,11 +25,14 @@
     "@simplewebauthn/browser": "^10.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "ethers": "5.7.2",
+    "ethers": "^6.13.2",
+    "framer-motion": "^11.3.20",
     "lucide-react": "^0.408.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.25.1",
     "rollup-plugin-polyfill-node": "^0.13.0",
+    "styled-components": "^6.1.12",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"
   },

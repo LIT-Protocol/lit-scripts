@@ -1,6 +1,10 @@
 import fs from "fs";
 import path from "path";
 
+/**
+ * Retrieves the versions of @lit-protocol packages from the package.json file.
+ * @returns An object containing the @lit-protocol packages and their versions, or null if there was an error.
+ */
 function checkLitProtocolVersions() {
   // Get the current working directory
   const currentDir = process.cwd();
